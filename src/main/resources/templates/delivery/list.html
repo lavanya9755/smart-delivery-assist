@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -22,9 +30,15 @@
                         <a class="nav-link active" href="/deliveries">Deliveries</a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="post" class="d-flex">
-                    <button class="btn btn-outline-light" type="submit">Logout</button>
-                </form>
+                <div class="d-flex align-items-center">
+                    <img th:if="${#authentication.principal.attributes.picture}" 
+                         th:src="${#authentication.principal.attributes.picture}"
+                         class="profile-pic" 
+                         th:alt="${#authentication.principal.attributes.name}">
+                    <form th:action="@{/logout}" method="post" class="d-flex">
+                        <button class="btn btn-outline-light" type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -49,6 +63,7 @@
                                 <th>From</th>
                                 <th>To</th>
                                 <th>Weight</th>
+                                <th>Price</th>
                                 <th>Booking Time</th>
                                 <th>ETA</th>
                             </tr>
@@ -66,8 +81,9 @@
                                 <td th:text="${delivery.source}"></td>
                                 <td th:text="${delivery.destination}"></td>
                                 <td th:text="${delivery.weight + ' kg'}"></td>
+                                <td th:text="${'₹' + delivery.price}"></td>
                                 <td th:text="${#temporals.format(delivery.bookingTime, 'dd-MM-yyyy HH:mm')}"></td>
-                                <td th:text="${delivery.estimatedDeliveryTime != null ? #temporals.format(delivery.estimatedDeliveryTime, 'dd-MM-yyyy HH:mm') : 'Calculating...'}"></td>
+                                <td th:text="${delivery.estimatedDeliveryTime != null ? #temporals.format(delivery.estimatedDeliveryTime, 'dd-MM-yyyy HH:mm') : '30-45 minutes'}"></td>
                             </tr>
                         </tbody>
                     </table>

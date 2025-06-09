@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "users")
@@ -48,14 +49,27 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
+    @ToString.Exclude // Exclude from toString to prevent LazyInitializationException
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Delivery> deliveries = new ArrayList<>();
 
+    @ToString.Exclude // Exclude from toString to prevent LazyInitializationException
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Feedback> feedbacks = new ArrayList<>();
 
     public enum Role {
         ROLE_USER,
         ROLE_ADMIN
+    }
+
+    // Custom toString method that doesn't access lazy collections
+    @Override
+    public String toString() {
+        return "User(userId=" + userId + 
+               ", username=" + username + 
+               ", email=" + email + 
+               ", picture=" + picture + 
+               ", googleId=" + googleId + 
+               ", role=" + role + ")";
     }
 } 

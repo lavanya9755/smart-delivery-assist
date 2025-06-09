@@ -1,5 +1,6 @@
 package com.lavanya.smartdelivery.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.lavanya.smartdelivery.model.Delivery.DeliveryStatus;
@@ -22,4 +23,5 @@ public class DeliveryDTO {
     private LocalDateTime actualDeliveryTime;
     private Boolean isFraudulent;
     private Double predictedEta;
+    private BigDecimal price;
 } 

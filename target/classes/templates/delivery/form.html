@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-pic {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -22,9 +30,15 @@
                         <a class="nav-link active" href="/deliveries">Deliveries</a>
                     </li>
                 </ul>
-                <form th:action="@{/logout}" method="post" class="d-flex">
-                    <button class="btn btn-outline-light" type="submit">Logout</button>
-                </form>
+                <div class="d-flex align-items-center">
+                    <img th:if="${#authentication.principal.attributes.picture}" 
+                         th:src="${#authentication.principal.attributes.picture}"
+                         class="profile-pic" 
+                         th:alt="${#authentication.principal.attributes.name}">
+                    <form th:action="@{/logout}" method="post" class="d-flex">
+                        <button class="btn btn-outline-light" type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>
@@ -37,19 +51,37 @@
                         <h4 class="mb-0">Book New Delivery</h4>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/deliveries/new}" th:object="${delivery}" method="post">
+                        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+                        <form th:action="@{/deliveries/new}" th:object="${delivery}" method="post" id="deliveryForm">
                             <div class="mb-3">
                                 <label for="source" class="form-label">Pickup Location</label>
-                                <input type="text" class="form-control" id="source" th:field="*{source}" required>
+                                <input type="text" class="form-control" id="source" name="source" th:field="*{source}" 
+                                       th:classappend="${#fields.hasErrors('source')} ? 'is-invalid'" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('source')}" th:errors="*{source}"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="destination" class="form-label">Delivery Location</label>
-                                <input type="text" class="form-control" id="destination" th:field="*{destination}" required>
+                                <input type="text" class="form-control" id="destination" name="destination" th:field="*{destination}" 
+                                       th:classappend="${#fields.hasErrors('destination')} ? 'is-invalid'" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></div>
                             </div>
                             <div class="mb-3">
                                 <label for="weight" class="form-label">Package Weight (kg)</label>
-                                <input type="number" step="0.1" class="form-control" id="weight" th:field="*{weight}" required>
+                                <input type="number" step="0.1" class="form-control" id="weight" name="weight" 
+                                       th:field="*{weight}" th:classappend="${#fields.hasErrors('weight')} ? 'is-invalid'"
+                                       required onchange="calculatePrice()">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"></div>
                             </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Delivery Price (₹)</label>
+                                <input type="number" class="form-control" id="price" name="price" th:field="*{price}" 
+                                       th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" readonly>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+                                <small class="text-muted">Base price: ₹100, Additional ₹100 per kg above 1kg</small>
+                            </div>
+                            <input type="hidden" name="bookingTime" th:field="*{bookingTime}" th:value="${#dates.createNow()}">
+                            <input type="hidden" name="deliveryStatus" th:field="*{deliveryStatus}" value="PENDING">
+                            <input type="hidden" name="isFraudulent" th:field="*{isFraudulent}" value="false">
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">Book Delivery</button>
                                 <a href="/deliveries" class="btn btn-secondary">Cancel</a>
@@ -62,5 +94,44 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function calculatePrice() {
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const basePrice = 100;
+            let totalPrice = basePrice;
+            
+            if (weight > 1) {
+                totalPrice += Math.ceil(weight - 1) * 100;
+            }
+            
+            document.getElementById('price').value = totalPrice.toFixed(2);
+            return totalPrice;
+        }
+
+        // Calculate initial price
+        calculatePrice();
+
+        // Add form submission handler
+        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent immediate submission
+            
+            // Ensure price is calculated before submission
+            const price = calculatePrice();
+            
+            // Log form data for debugging
+            const formData = new FormData(this);
+            console.log('Submitting form with data:');
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+
+            // If all looks good, submit the form
+            if (price > 0) {
+                this.submit();
+            } else {
+                alert('Please enter a valid weight to calculate the price.');
+            }
+        });
+    </script>
 </body>
 </html> 
