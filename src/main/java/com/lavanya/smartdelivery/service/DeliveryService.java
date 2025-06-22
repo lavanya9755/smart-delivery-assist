@@ -34,7 +34,7 @@ public class DeliveryService {
     public Delivery createDelivery(OAuth2User principal, DeliveryDTO deliveryDTO) {
         try {
             // Debug log incoming data
-            System.out.println("\nStarting delivery creation in service layer");
+            System.out.println("\nStarting delivery creation in service layer"); // DEBUG , same getter setters!!
             System.out.println("Source: " + deliveryDTO.getSource());
             System.out.println("Destination: " + deliveryDTO.getDestination());
             System.out.println("Weight: " + deliveryDTO.getWeight());

@@ -21,7 +21,7 @@ public class UserService {
         String name = principal.getAttribute("name");
         String picture = principal.getAttribute("picture");
         String googleId = principal.getAttribute("sub");
-
+//DEBUF fro here, if possible check the user model
         return userRepository.findByEmail(email)
                 .orElseGet(() -> {
                     User newUser = new User();
@@ -29,7 +29,7 @@ public class UserService {
                     newUser.setUsername(name);
                     newUser.setPicture(picture);
                     newUser.setGoogleId(googleId);
-                    newUser.setPasswordHash("OAUTH2_USER"); // Placeholder for OAuth users
+                    newUser.setPasswordHash("OAUTH2_USER"); // should i use google account login??
                     newUser.setRole(User.Role.ROLE_USER);
                     return userRepository.saveAndFlush(newUser);
                 });

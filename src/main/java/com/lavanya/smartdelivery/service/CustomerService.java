@@ -21,7 +21,7 @@ public class CustomerService {
         
         Customer customer = customerRepository.findByEmail(email)
             .orElse(new Customer());
-        
+        //DEBUG
         customer.setEmail(email);
         customer.setName(name);
         

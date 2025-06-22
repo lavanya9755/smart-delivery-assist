@@ -29,7 +29,7 @@ public class OrderService {
         order.setCustomer(customer);
         order.setOrderStatus("pending");
         order.setDeliveryAddress(orderDTO.getDeliveryAddress());
-        order.setTotalAmount(orderDTO.getTotalAmount());
+        order.setTotalAmount(orderDTO.getTotalAmount()); //dont use getter and setter , find another way 
         
         return orderRepository.save(order);
     }

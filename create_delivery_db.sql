@@ -1,15 +1,12 @@
--- Create the database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS delivery_db;
 USE delivery_db;
-
--- Drop existing tables if they exist
+--  feedbacks creating error 
 DROP TABLE IF EXISTS feedbacks;
 DROP TABLE IF EXISTS deliveries;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS users;
 
--- Create users table
 CREATE TABLE users (
     user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -21,7 +18,6 @@ CREATE TABLE users (
     role ENUM('ROLE_USER', 'ROLE_ADMIN') DEFAULT 'ROLE_USER' NOT NULL
 );
 
--- Create customers table
 CREATE TABLE customers (
     customer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -31,7 +27,6 @@ CREATE TABLE customers (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
--- Create orders table
 CREATE TABLE orders (
     order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     customer_id BIGINT NOT NULL,
@@ -42,7 +37,6 @@ CREATE TABLE orders (
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 
--- Create deliveries table
 CREATE TABLE deliveries (
     delivery_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -65,7 +59,6 @@ CREATE TABLE deliveries (
     FOREIGN KEY (driver_id) REFERENCES users(user_id)
 );
 
--- Create feedback table
 CREATE TABLE feedbacks (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
@@ -78,7 +71,6 @@ CREATE TABLE feedbacks (
     FOREIGN KEY (delivery_id) REFERENCES deliveries(delivery_id)
 );
 
--- Add indexes for better performance
 CREATE INDEX idx_user_email ON users(email);
 CREATE INDEX idx_user_google_id ON users(google_id);
 CREATE INDEX idx_customer_email ON customers(email);

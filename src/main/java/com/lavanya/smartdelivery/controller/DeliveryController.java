@@ -40,8 +40,7 @@ public class DeliveryController {
             @ModelAttribute("delivery") DeliveryDTO deliveryDTO,
             BindingResult bindingResult,
             Model model) {
-        
-        // Debug log the received data
+        //DEBUG from here , check model and dto
         System.out.println("Received form submission in controller:");
         System.out.println("Principal: " + principal);
         System.out.println("Source: " + deliveryDTO.getSource());
@@ -49,7 +48,6 @@ public class DeliveryController {
         System.out.println("Weight: " + deliveryDTO.getWeight());
         System.out.println("Price: " + deliveryDTO.getPrice());
         
-        // Basic validation
         boolean hasErrors = false;
         if (deliveryDTO.getSource() == null || deliveryDTO.getSource().trim().isEmpty()) {
             bindingResult.rejectValue("source", "error.source", "Source location is required");
