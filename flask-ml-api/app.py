@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from textblob import TextBlob
 import joblib
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -82,28 +81,6 @@ def cluster_user():
         scaled_features = scaler.transform(features)
         cluster = cluster_model.predict(scaled_features)[0]
         return jsonify({'cluster': int(cluster)})
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
-
-@app.route('/analyze_sentiment', methods=['POST'])
-def analyze_sentiment():
-    try:
-        text = request.json['text']
-        analysis = TextBlob(text)
-        sentiment_score = analysis.sentiment.polarity
-        
-        # Map the sentiment score to a label
-        if sentiment_score > 0.1:
-            sentiment = 'positive'
-        elif sentiment_score < -0.1:
-            sentiment = 'negative'
-        else:
-            sentiment = 'neutral'
-            
-        return jsonify({
-            'sentiment': sentiment,
-            'score': sentiment_score
-        })
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
