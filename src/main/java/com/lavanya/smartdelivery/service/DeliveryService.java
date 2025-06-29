@@ -42,7 +42,7 @@ public class DeliveryService {
             
             // Get or create user in a separate transaction
             User user = userService.getOrCreateUser(principal);
-            System.out.println("User found/created - ID: " + user.getUserId());
+            System.out.println("User found/created - ID: " + user.getId());
             
             // Create and save the delivery
             Delivery delivery = new Delivery();
@@ -84,8 +84,8 @@ public class DeliveryService {
 
             // Debug log before saving
             System.out.println("\nAbout to save delivery with details:");
-            System.out.println("User ID: " + delivery.getUser().getUserId());
-            System.out.println("Driver ID: " + delivery.getDriver().getUserId());
+            System.out.println("User ID: " + delivery.getUser().getId());
+            System.out.println("Driver ID: " + delivery.getDriver().getId());
             System.out.println("Source: " + delivery.getSource());
             System.out.println("Destination: " + delivery.getDestination());
             System.out.println("Weight: " + delivery.getWeight());

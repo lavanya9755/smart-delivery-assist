@@ -5,9 +5,11 @@ com\lavanya\smartdelivery\dto\CustomerDTO.class
 com\lavanya\smartdelivery\service\FlaskClientService.class
 com\lavanya\smartdelivery\dto\UserDTO.class
 com\lavanya\smartdelivery\repository\FeedbackRepository.class
+com\lavanya\smartdelivery\service\OrderService.class
 com\lavanya\smartdelivery\model\Delivery.class
 com\lavanya\smartdelivery\repository\OrderRepository.class
 com\lavanya\smartdelivery\repository\DeliveryRepository.class
+com\lavanya\smartdelivery\controller\AnalyticsController.class
 com\lavanya\smartdelivery\model\Delivery$DeliveryStatus.class
 com\lavanya\smartdelivery\dto\OrderDTO.class
 com\lavanya\smartdelivery\SmartDeliveryApplication.class
@@ -15,9 +17,12 @@ com\lavanya\smartdelivery\model\User.class
 com\lavanya\smartdelivery\repository\CustomerRepository.class
 com\lavanya\smartdelivery\model\User$Role.class
 com\lavanya\smartdelivery\model\Order.class
+com\lavanya\smartdelivery\service\AnalyticsService.class
+com\lavanya\smartdelivery\service\UserService.class
 com\lavanya\smartdelivery\controller\AuthController.class
 com\lavanya\smartdelivery\controller\HomeController.class
 com\lavanya\smartdelivery\controller\DeliveryController.class
 com\lavanya\smartdelivery\service\DeliveryService.class
 com\lavanya\smartdelivery\model\Feedback.class
 com\lavanya\smartdelivery\repository\UserRepository.class
+com\lavanya\smartdelivery\service\CustomerService.class
