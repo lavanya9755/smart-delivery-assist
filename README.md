@@ -8,7 +8,6 @@ A modern delivery management system enhanced with AI capabilities for accurate E
 - 🤖 AI-powered ETA prediction
 - 🔍 Fraud detection system
 - 👥 Customer segmentation
-- 💭 Sentiment analysis for feedback
 - 📊 Analytics dashboard
 - 🔐 Google OAuth2 authentication
 
@@ -89,23 +88,13 @@ npm start
 
 - `POST /api/delivery/book` - Book a new delivery
 - `GET /api/delivery/list` - List user's deliveries
-- `POST /api/feedback` - Submit delivery feedback
 - `GET /api/admin/dashboard` - Get analytics data
 
 ### Flask ML API
 
 - `POST /predict_eta` - Predict delivery ETA
 - `POST /detect_fraud` - Detect fraudulent activity
-- `POST /analyze_sentiment` - Analyze feedback sentiment
 - `POST /cluster_user` - Segment customer
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
